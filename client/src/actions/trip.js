@@ -3,7 +3,7 @@ import axios from 'axios';
 import { setFlash } from '../actions/flash';
 import { setHeaders } from '../actions/headers';
 
-export const TRIPS = "TRIPS"
+export const TRIPS = "TRIPS";
 export const NEW_TRIP = "NEW_TRIP";
 
 export const addTrip = (trip, history) => {
@@ -24,11 +24,12 @@ export const addTrip = (trip, history) => {
   };
 };
 
-export const getTrips = () => {
+export const getTrips = (cb) => {
   return dispatch => {
     axios.get('/api/trips')
       .then( ({ data, headers }) => {
         dispatch({ type: TRIPS, trips: data, headers })
+        cb();
       })
       .catch(res => {
         const messages =

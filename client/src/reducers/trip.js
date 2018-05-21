@@ -3,15 +3,15 @@ import {
   TRIPS
 } from '../actions/trip'
 
-const trip = (state = {}, action) => {
+const trips = (state = {}, action) => {
   switch (action.type) {
-    case NEW_POST:
-      return [...state, action.trip]
     case TRIPS:
       return action.trips
+    case NEW_TRIP:
+      return [...state, action.trip]
     default:
       return state;
   }
 };
 
-export default trip;
+export default trips;

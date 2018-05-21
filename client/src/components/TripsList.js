@@ -1,47 +1,46 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Card, Button } from 'semantic-ui-react';
+import { Container, Card, Button, Dimmer, Loader } from 'semantic-ui-react';
 import { getTrips } from '../actions/trip';
+import TripCard from './TripCard';
 
 class TripsList extends Component {
-  state = { trips: [] }
-  
+  state = { loaded: false }
+
   componentWillMount() {
     const { dispatch } = this.props;
-    dispatch(getTrips())
+    dispatch(getTrips(this.setLoaded))
   }
-
  
+  setLoaded = () => this.setState({ loaded: true });
+
   render() {
+    if (!this.state.loaded) {
+      return (
+        <div>
+          <br />
+          <Dimmer active inverted>
+            <Loader inverted size='large'>Loading</Loader>
+          </Dimmer>
+        </div>
+      );
+    }
+
     const { trips } = this.props
+    console.log(trips)
+    
     return (
-      <Container>
-        <Card>
-          <Card.Content>
-            <Card.Header>
-              Steve Sanders
-            </Card.Header>
-            <Card.Meta>
-              Friends of Elliot
-            </Card.Meta>
-            <Card.Description>
-              Steve wants to add you to the group <strong>best friends</strong>
-            </Card.Description>
-          </Card.Content>
-          <Card.Content extra>
-            <div className='ui two buttons'>
-              <Button basic color='green'>Approve</Button>
-              <Button basic color='red'>Decline</Button>
-            </div>
-          </Card.Content>
-        </Card>
-      </Container>
+      trips.length > 0 ?
+        trips.map(trip =>
+          <TripCard info={trip} />
+        )
+        : null
     )
   }
 }
 
-const mapStateToProps = (store) => ({
-  trips: store.trips
-});
+const mapStateToProps = (state) => {
+ return { trips: state.trips };
+};
 
 export default connect(mapStateToProps)(TripsList);
