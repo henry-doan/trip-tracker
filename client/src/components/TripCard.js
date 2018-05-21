@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Button } from 'semantic-ui-react';
-// import { reverse } from 'reverse-geocode';
-let reverse = require('reverse-geocode');
-class TripCard extends Component {
 
-  setLocation = (long, lat) => {
-    const location = reverse.lookup(parseFloat(long), parseFloat(lat), 'us')
-    return location
-  }
+class TripCard extends Component {
 
   render() {
     const { id, duration, count, longitude, latitude } = this.props.info
@@ -15,7 +9,7 @@ class TripCard extends Component {
       <Card key={id}>
         <Card.Content>
           <Card.Header>
-            {this.setLocation(longitude, latitude)}
+            trip# {id}
           </Card.Header>
           <Card.Meta>
             Count: {count}
